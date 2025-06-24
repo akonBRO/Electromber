@@ -5,7 +5,7 @@ import { useTheme } from '../ThemeContext';
 import {
     Zap, Wrench, ArrowRight, ArrowLeft, Star, Clock, Shield, MapPin, CheckCircle,
     CreditCard, Smartphone, Truck, ChevronDown, Check, User as UserIcon, Award, Diamond, Crown,
-    Calendar, Sun, Moon, Sparkles, Home, Building,  Store
+    Calendar, Sun, Moon, Sparkles, Home, Building, Store, X, AlertCircle
 } from 'lucide-react';
 
 // --- Data for the Booking Flow (Expanded) ---
@@ -256,16 +256,25 @@ const BookServicePage = () => {
     const [promoCode, setPromoCode] = useState('');
     const [promoApplied, setPromoApplied] = useState(false);
     const [termsAgreed, setTermsAgreed] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [bookingId, setBookingId] = useState(null);
 
-    useEffect(() => {
-        const basePrice = bookingDetails.problem?.price || [0,0];
+    const calculatePrices = () => {
+        const basePrice = bookingDetails.problem?.price || [0, 0];
         const serviceFee = bookingDetails.technician?.serviceFee || 0;
         const transportFee = 0;
-        setTotalPrice([
-            Math.round(basePrice[0] + serviceFee + transportFee), 
-            Math.round(basePrice[1] + serviceFee + transportFee)
-        ]);
-    }, [bookingDetails.problem, bookingDetails.technician]);
+        
+        return {
+            serviceMin: basePrice[0],
+            serviceMax: basePrice[1],
+            serviceFee,
+            transportFee,
+            totalMin: Math.round(basePrice[0] + serviceFee + transportFee),
+            totalMax: Math.round(basePrice[1] + serviceFee + transportFee)
+        };
+    };
+
+    const priceDetails = calculatePrices();
 
     const handleSelect = (field, value) => {
         setBookingDetails(prev => ({ ...prev, [field]: value }));
@@ -722,139 +731,307 @@ const BookServicePage = () => {
         }
     };
 
-    return (
-        <DashboardLayout>
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <StepIndicator currentStep={step} totalSteps={6} />
+     const BookingSummary = () => (
+        <div className="lg:sticky lg:top-8">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center">
+                    <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
+                        Booking Summary
+                    </span>
+                </h2>
                 
-                <div className="grid lg:grid-cols-3 gap-8 items-start">
-                    <div className="lg:col-span-2">
-                        {renderStepContent()}
+                <div className="space-y-4 text-sm">
+                    <div className="flex justify-between pb-2 border-b border-gray-100 dark:border-gray-700">
+                        <span className="text-gray-500 dark:text-gray-400">Service:</span>
+                        <span className="font-semibold text-gray-800 dark:text-white text-right">
+                            {bookingDetails.serviceType || 'Not selected'}
+                        </span>
                     </div>
-
-                    <div className="lg:sticky lg:top-8">
-                        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
-                            <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center">
-                                <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
-                                    Booking Summary
-                                </span>
-                            </h2>
-                            
-                            <div className="space-y-4 text-sm">
-                                <div className="flex justify-between pb-2 border-b border-gray-100 dark:border-gray-700">
-                                    <span className="text-gray-500 dark:text-gray-400">Service:</span>
-                                    <span className="font-semibold text-gray-800 dark:text-white text-right">
-                                        {bookingDetails.serviceType || 'Not selected'}
-                                    </span>
-                                </div>
-                                
-                                {bookingDetails.category && (
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500 dark:text-gray-400">Category:</span>
-                                        <span className="font-semibold text-gray-800 dark:text-white">
-                                            {bookingDetails.category}
-                                        </span>
-                                    </div>
-                                )}
-                                
-                                {bookingDetails.problem && (
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500 dark:text-gray-400">Problem:</span>
-                                        <span className="font-semibold text-gray-800 dark:text-white text-right">
-                                            {bookingDetails.problem.name}
-                                        </span>
-                                    </div>
-                                )}
-                                
-                                {bookingDetails.location.area && (
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500 dark:text-gray-400">Location:</span>
-                                        <span className="font-semibold text-gray-800 dark:text-white text-right">
-                                            {bookingDetails.location.area}
-                                            {bookingDetails.location.propertyType && ` • ${bookingDetails.location.propertyType}`}
-                                        </span>
-                                    </div>
-                                )}
-                                
-                                {bookingDetails.technician && (
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500 dark:text-gray-400">Technician:</span>
-                                        <span className="font-semibold text-gray-800 dark:text-white">
-                                            {bookingDetails.technician.name}
-                                        </span>
-                                    </div>
-                                )}
-                                
-                                <div className="flex justify-between">
-                                    <span className="text-gray-500 dark:text-gray-400">Schedule:</span>
-                                    <span className="font-semibold text-gray-800 dark:text-white">
-                                        {bookingDetails.schedule.type === 'Now' ? 
-                                            'ASAP' : 
-                                            `${bookingDetails.schedule.date} • ${bookingDetails.schedule.timeSlot || 'Any time'}`}
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div className="mt-6 pt-5 border-t border-gray-200 dark:border-gray-700">
-                                <div className="flex justify-between items-center mb-2">
-                                    <span className="text-gray-500 dark:text-gray-400">Estimated Price:</span>
-                                    <span className="text-lg font-bold text-gray-800 dark:text-white">
-                                        ৳{totalPrice[0]} - ৳{totalPrice[1]}
-                                    </span>
-                                </div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                    Final price will be confirmed by the technician after inspection.
-                                </p>
-                                
-                                {bookingDetails.technician?.priceModifier > 1 && (
-                                    <div className="mt-3 p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-300 rounded text-xs">
-                                        <div className="flex items-center">
-                                            <Diamond size={14} className="mr-2"/>
-                                            Premium technician selected (+{((bookingDetails.technician.priceModifier-1)*100).toFixed(0)}% service fee)
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                    
+                    {bookingDetails.category && (
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Category:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white">
+                                {bookingDetails.category}
+                            </span>
                         </div>
-                        
-                        <div className="flex justify-between mt-6">
-                            <button 
-                                onClick={() => setStep(step - 1)} 
-                                disabled={step === 1} 
-                                className="flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 font-medium text-gray-700 dark:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                            >
-                                <ArrowLeft size={18}/>
-                                <span>Back</span>
-                            </button>
+                    )}
+                    
+                    {bookingDetails.problem && (
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Problem:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white text-right">
+                                {bookingDetails.problem.name}
+                            </span>
+                        </div>
+                    )}
+                    
+                    {bookingDetails.location.area && (
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Location:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white text-right">
+                                {bookingDetails.location.area}
+                                {bookingDetails.location.propertyType && ` • ${bookingDetails.location.propertyType}`}
+                            </span>
+                        </div>
+                    )}
+                    
+                    {bookingDetails.technician && (
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Technician:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white">
+                                {bookingDetails.technician.name}
+                            </span>
+                        </div>
+                    )}
+                    
+                    <div className="flex justify-between">
+                        <span className="text-gray-500 dark:text-gray-400">Schedule:</span>
+                        <span className="font-semibold text-gray-800 dark:text-white">
+                            {bookingDetails.schedule.type === 'Now' ? 
+                                'ASAP' : 
+                                `${bookingDetails.schedule.date} • ${bookingDetails.schedule.timeSlot || 'Any time'}`}
+                        </span>
+                    </div>
+                </div>
+                
+                {/* Updated Price Breakdown Section */}
+                <div className="mt-6 pt-5 border-t border-gray-200 dark:border-gray-700">
+                    <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Price Breakdown</h3>
+                    
+                    {bookingDetails.problem && (
+                        <div className="space-y-2 mb-3">
+                            <div className="flex justify-between">
+                                <span className="text-gray-500 dark:text-gray-400">Service Cost:</span>
+                                <span className="font-medium text-gray-700 dark:text-gray-300">
+                                    ৳{priceDetails.serviceMin} - ৳{priceDetails.serviceMax}
+                                </span>
+                            </div>
                             
-                            {step < 6 ? (
-                                <button 
-                                    onClick={() => setStep(step + 1)} 
-                                    disabled={!isStepComplete(step)} 
-                                    className="flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-medium hover:from-orange-600 hover:to-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg shadow-orange-500/20"
-                                >
-                                    <span>Continue</span>
-                                    <ArrowRight size={18}/>
-                                </button>
-                            ) : (
-                                <button 
-                                    disabled={!isStepComplete(6)} 
-                                    className="flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium hover:from-green-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg shadow-green-500/20"
-                                >
-                                    <span>Confirm Booking</span>
-                                    <Check size={18}/>
-                                </button>
+                            {bookingDetails.technician && (
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500 dark:text-gray-400">Technician Fee:</span>
+                                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                                        ৳{priceDetails.serviceFee}
+                                    </span>
+                                </div>
+                            )}
+                            
+                            {priceDetails.transportFee > 0 && (
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500 dark:text-gray-400">Transport Fee:</span>
+                                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                                        ৳{priceDetails.transportFee}
+                                    </span>
+                                </div>
                             )}
                         </div>
+                    )}
+                    
+                    <div className="pt-3 border-t border-gray-100 dark:border-gray-700">
+                        <div className="flex justify-between items-center mb-1">
+                            <span className="text-gray-700 dark:text-gray-300 font-medium">Estimated Total:</span>
+                            <span className="text-lg font-bold text-gray-800 dark:text-white">
+                                ৳{priceDetails.totalMin} - ৳{priceDetails.totalMax}
+                            </span>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                            Final price will be confirmed by the technician after inspection.
+                        </p>
                         
-                        {step === 6 && (
-                            <div className="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
-                                By confirming, you agree to our cancellation policy
+                        {bookingDetails.technician?.priceModifier > 1 && (
+                            <div className="mt-3 p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-300 rounded text-xs">
+                                <div className="flex items-center">
+                                    <Diamond size={14} className="mr-2"/>
+                                    Premium technician selected (+{((bookingDetails.technician.priceModifier-1)*100).toFixed(0)}% service fee)
+                                </div>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
+            
+             <div className="flex justify-between mt-6">
+                <button 
+                    onClick={() => setStep(step - 1)} 
+                    disabled={step === 1} 
+                    className="flex items-center space-x-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 font-medium text-gray-700 dark:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm sm:text-base"
+                >
+                    <ArrowLeft size={18}/>
+                    <span>Back</span>
+                </button>
+                
+                {step < 6 ? (
+                    <button 
+                        onClick={() => setStep(step + 1)} 
+                        disabled={!isStepComplete(step)} 
+                        className="flex items-center space-x-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-medium hover:from-orange-600 hover:to-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg shadow-orange-500/20 text-sm sm:text-base"
+                    >
+                        <span>Continue</span>
+                        <ArrowRight size={18}/>
+                    </button>
+                ) : (
+                    <button 
+                        onClick={() => {
+                            // Generate a random booking ID
+                            setBookingId('BK-' + Math.floor(100000 + Math.random() * 900000));
+                            setShowConfirmation(true);
+                        }}
+                        disabled={!isStepComplete(6)} 
+                        className="flex items-center space-x-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium hover:from-green-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg shadow-green-500/20 text-sm sm:text-base"
+                    >
+                        <span>Confirm Booking</span>
+                        <Check size={18}/>
+                    </button>
+                )}
+            </div>
+            
+            {step === 6 && (
+                <div className="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
+                    By confirming, you agree to our cancellation policy
+                </div>
+            )}
+        </div>
+    );
+
+    // Confirmation Modal Component
+    const ConfirmationModal = () => (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 animate-fade-in">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md overflow-hidden transform transition-all animate-scale-in">
+                <div className="p-6">
+                    <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center">
+                                <CheckCircle className="text-green-500 mr-2" size={28} />
+                                Booking Confirmed!
+                            </h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                Your service request has been placed successfully
+                            </p>
+                        </div>
+                        <button 
+                            onClick={() => setShowConfirmation(false)}
+                            className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        >
+                            <X size={20} className="text-gray-500 dark:text-gray-400" />
+                        </button>
+                    </div>
+                    
+                    <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 p-4 rounded-lg mb-6 flex items-start">
+                        <AlertCircle size={18} className="mr-2 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm">
+                            Your technician will call you within 5 minutes to confirm details. 
+                            Please keep your phone nearby.
+                        </p>
+                    </div>
+                    
+                    <div className="space-y-4 text-sm">
+                        <div className="flex justify-between pb-2 border-b border-gray-100 dark:border-gray-700">
+                            <span className="text-gray-500 dark:text-gray-400">Booking ID:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white">
+                                {bookingId}
+                            </span>
+                        </div>
+                        
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Service:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white text-right">
+                                {bookingDetails.serviceType} - {bookingDetails.category}
+                            </span>
+                        </div>
+                        
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Problem:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white text-right">
+                                {bookingDetails.problem?.name}
+                            </span>
+                        </div>
+                        
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Technician:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white">
+                                {bookingDetails.technician?.name}
+                            </span>
+                        </div>
+                        
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Schedule:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white">
+                                {bookingDetails.schedule.type === 'Now' ? 
+                                    'ASAP' : 
+                                    `${new Date(bookingDetails.schedule.date).toLocaleDateString()} • ${bookingDetails.schedule.timeSlot || 'Any time'}`}
+                            </span>
+                        </div>
+                        
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Location:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white text-right">
+                                {bookingDetails.location.area}, {bookingDetails.location.propertyType}
+                            </span>
+                        </div>
+                        
+                        <div className="flex justify-between">
+                            <span className="text-gray-500 dark:text-gray-400">Payment Method:</span>
+                            <span className="font-semibold text-gray-800 dark:text-white">
+                                {bookingDetails.paymentMethod}
+                            </span>
+                        </div>
+                        
+                        <div className="pt-3 border-t border-gray-200 dark:border-gray-700 mt-3">
+                            <div className="flex justify-between items-center">
+                                <span className="text-gray-700 dark:text-gray-300 font-medium">Estimated Total:</span>
+                                <span className="text-lg font-bold text-gray-800 dark:text-white">
+                                    ৳{priceDetails.totalMin} - ৳{priceDetails.totalMax}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="mt-6 grid grid-cols-2 gap-3">
+                        <Link 
+                            to="/dashboard/bookings" 
+                            className="px-4 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium text-center transition-colors"
+                        >
+                            View Bookings
+                        </Link>
+                        <button 
+                            onClick={() => {
+                                setShowConfirmation(false);
+                                // Reset the booking flow if needed
+                                // setStep(1);
+                                // setBookingDetails({...initialState});
+                            }}
+                            className="px-4 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-medium hover:from-orange-600 hover:to-amber-600 rounded-lg transition-all"
+                        >
+                            Done
+                        </button>
+                    </div>
+                </div>
+                
+                <div className="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-t border-gray-100 dark:border-gray-700">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                        Need help? Call our support at <span className="font-semibold">09612-345678</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+
+    return (
+        <DashboardLayout>
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+                <StepIndicator currentStep={step} totalSteps={6} />
+                
+                <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 items-start">
+                    <div className="lg:col-span-2">
+                        {renderStepContent()}
+                    </div>
+
+                    <BookingSummary />
+                </div>
+            </div>
+            
+            {showConfirmation && <ConfirmationModal />}
         </DashboardLayout>
     );
 };

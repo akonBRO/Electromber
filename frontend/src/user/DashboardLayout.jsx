@@ -23,7 +23,7 @@ const DashboardSidebar = ({ isMobileMenuOpen, setMobileMenuOpen }) => {
     const sidebarContent = (
         <>
             <div className="flex items-center justify-between mb-10">
-                <Link to="/dashboard" className="flex-shrink-0 flex items-center space-x-2">
+                <Link to="/" className="flex-shrink-0 flex items-center space-x-2">
                     <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
                         <Zap className="text-orange-500" />
                     </div>

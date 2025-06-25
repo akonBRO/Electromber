@@ -311,7 +311,7 @@ const StatsSection = () => {
   const stats = [
     { value: "5,000+", label: "Happy Customers" },
     { value: "24/7", label: "Service Availability" },
-    { value: "98%", label: "Satisfaction Rate" },
+    { value: "100%", label: "Satisfaction Rate" },
     { value: "50+", label: "Certified Experts" }
   ];
 

@@ -135,25 +135,25 @@ const AboutUsPage = () => {
                     </p>
                     <div className="space-y-10">
                         <TimelineItem 
-                            year="2022" 
+                            year="2024" 
                             title="The Idea Was Born" 
                             description="Our founders recognized the challenges homeowners faced in finding reliable technicians and envisioned a tech-enabled solution." 
                             icon={<Lightbulb size={14}/>} 
                         />
                         <TimelineItem 
-                            year="2023" 
+                            year="2025" 
                             title="ELECTROMBER Launched" 
                             description="Officially launched in Dhaka with 10 certified professionals and our first 100 customers." 
                             icon={<Flag size={14}/>} 
                         />
                         <TimelineItem 
-                            year="2024" 
+                            year="2026" 
                             title="Rapid Expansion" 
                             description="Expanded to 5 cities, served 10,000+ customers, and introduced our mobile app for seamless booking." 
                             icon={<TrendingUp size={14}/>} 
                         />
                         <TimelineItem 
-                            year="2025" 
+                            year="2027" 
                             title="Future Vision" 
                             description="Aiming to cover all major cities and introduce smart home installation services." 
                             icon={<Star size={14}/>} 

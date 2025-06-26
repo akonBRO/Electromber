@@ -266,7 +266,7 @@ const AboutUsPage = () => {
                             role="Chief Finance Officer" 
                             avatar="https://scontent.fjsr13-1.fna.fbcdn.net/v/t39.30808-1/251066429_1570065436668051_2563879864103268332_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_ohc=SlpNyhKNuuQQ7kNvwEKnL0q&_nc_oc=AdlIUrntRsqB_d2B9CSwExfzAaMu3a86-H0_WM9lFEgLASa8FRepYuKAX2ZNioavKzs&_nc_zt=24&_nc_ht=scontent.fjsr13-1.fna&_nc_gid=99mYG4rPpudlljDKGcpjNw&oh=00_AfM44gJRDk2P_Ja82884qUqSRlOPR_kdOJWAiQkENBUdGg&oe=6860C47E" 
                             social={{linkedin: "#", twitter: "#"}} 
-                            bio="Customer service expert passionate about creating delightful service experiences."
+                            bio="Finance service expert passionate about creating delightful service experiences."
                         />
                     </div>
                 </div>

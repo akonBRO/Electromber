@@ -23,10 +23,14 @@ const DashboardSidebar = ({ isMobileMenuOpen, setMobileMenuOpen }) => {
     const sidebarContent = (
         <>
             <div className="flex items-center justify-between mb-10">
-                <Link to="/dashboard" className="flex-shrink-0 flex items-center space-x-2">
-                    <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                        <Zap className="text-orange-500" />
-                    </div>
+                <Link to="/" className="flex-shrink-0 flex items-center space-x-2">
+                    <div className="w-12 h-12 flex items-center justify-center">
+  <img
+    src="https://i.postimg.cc/8zzHFdzg/Screenshot-2025-06-08-205137-removebg-preview.png"
+    alt="logo"
+    className="w-14 h-14 object-contain"
+  />
+</div>
                     <span className="text-2xl font-bold text-gray-800 dark:text-white tracking-wider">ELECTROMBER</span>
                 </Link>
                 <button onClick={() => setMobileMenuOpen(false)} className="lg:hidden p-2 text-gray-500 dark:text-gray-400">

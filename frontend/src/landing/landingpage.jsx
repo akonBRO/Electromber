@@ -22,9 +22,13 @@ const Header = () => {
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${headerClasses}`}>
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-[#FF4E00] to-[#F4743B] rounded-md flex items-center justify-center">
-            <Lightbulb className="w-5 h-5 text-white" />
-          </div>
+          <div className="w-12 h-12 flex items-center justify-center">
+  <img
+    src="https://i.postimg.cc/8zzHFdzg/Screenshot-2025-06-08-205137-removebg-preview.png"
+    alt="logo"
+    className="w-14 h-14 object-contain"
+  />
+</div>
           <span className="text-xl font-bold text-gray-800 dark:text-white tracking-wider">ELECTROMBER</span>
         </Link>
         
@@ -307,7 +311,7 @@ const StatsSection = () => {
   const stats = [
     { value: "5,000+", label: "Happy Customers" },
     { value: "24/7", label: "Service Availability" },
-    { value: "98%", label: "Satisfaction Rate" },
+    { value: "100%", label: "Satisfaction Rate" },
     { value: "50+", label: "Certified Experts" }
   ];
 

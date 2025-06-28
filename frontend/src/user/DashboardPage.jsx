@@ -1,5 +1,5 @@
 // src/user/DashboardPage.jsx
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from './DashboardLayout';
 import { 
@@ -38,6 +38,12 @@ const PromoCarousel = () => {
     ];
 
     const [current, setCurrent] = useState(0);
+    useEffect(() => {
+            const timer = setTimeout(() => {
+                setCurrent(current === promos.length - 1 ? 0 : current + 1);
+            }, 3000);
+            return () => clearTimeout(timer);
+        }, [current, promos.length]);
 
     return (
         <div className="relative w-full h-48 rounded-2xl shadow-lg overflow-hidden my-6">

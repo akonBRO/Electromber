@@ -116,20 +116,19 @@ const BookingOptions = () => (
             </div>
             <div className="p-5">
                 <ul className="space-y-3">
-  <li className="flex items-center">
-    <CheckCircle className="text-green-500 mr-2" size={16} />
-    <span className="text-gray-700 dark:text-gray-300">Transparent Pricing</span>
-  </li>
-  <li className="flex items-center">
-    <CheckCircle className="text-green-500 mr-2" size={16} />
-    <span className="text-gray-700 dark:text-gray-300">Satisfaction Guarantee</span>
-  </li>
-  <li className="flex items-center">
-    <CheckCircle className="text-green-500 mr-2" size={16} />
-    <span className="text-gray-700 dark:text-gray-300">Certified & Insured Team</span>
-  </li>
-</ul>
-
+                    <li className="flex items-center">
+                        <CheckCircle className="text-green-500 mr-2" size={16} />
+                        <span className="text-gray-700 dark:text-gray-300">Transparent Pricing</span>
+                    </li>
+                    <li className="flex items-center">
+                        <CheckCircle className="text-green-500 mr-2" size={16} />
+                        <span className="text-gray-700 dark:text-gray-300">Satisfaction Guarantee</span>
+                    </li>
+                    <li className="flex items-center">
+                        <CheckCircle className="text-green-500 mr-2" size={16} />
+                        <span className="text-gray-700 dark:text-gray-300">Certified & Insured Team</span>
+                    </li>
+                </ul>
                 <Link 
                     to="/book-service?type=plumber"
                     className="mt-6 w-full inline-flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors"
@@ -142,10 +141,10 @@ const BookingOptions = () => (
 );
 const ServicePackageCard = ({ title, services, price, originalPrice, icon, popular, image }) => {
     return (
-        <div className={`bg-white dark:bg-gray-800/50 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full : ''}`}>
+        <div className={`bg-white dark:bg-gray-800/50 rounded-2xl shadow-lg overflow-hidden flex flex-col h-full ${popular ? 'border-2 border-orange-500' : 'border-2 border-transparent'}`}>
             {image && (
-                <div className="h-32 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-                    <img src={image} alt={title} className="object-cover w-full h-full" />
+                <div className="relative" style={{ paddingTop: '66.66%' }}> {/* 3:2 Aspect Ratio (1024/1536) */}
+                    <img src={image} alt={title} className="absolute top-0 left-0 object-cover w-full h-full" />
                 </div>
             )}
             <div className="p-5 flex flex-col flex-grow">
@@ -161,25 +160,25 @@ const ServicePackageCard = ({ title, services, price, originalPrice, icon, popul
                     )}
                 </div>
                 
-                <ul className="mt-3 space-y-2 flex-grow">
+                <ul className="mt-4 space-y-2 flex-grow">
                     {services.map((service, index) => (
                         <li key={index} className="flex items-start">
-                            <CheckCircle className="text-green-500 mt-0.5 mr-2 flex-shrink-0" size={14} />
+                            <CheckCircle className="text-green-500 mt-0.5 mr-2 flex-shrink-0" size={16} />
                             <span className="text-sm text-gray-600 dark:text-gray-300">{service}</span>
                         </li>
                     ))}
                 </ul>
                 
-                <div className="mt-4">
+                <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-700">
                     <div className="flex items-end space-x-2">
-                        <span className="text-xl font-bold text-gray-800 dark:text-white">৳{price}</span>
+                        <span className="text-2xl font-bold text-gray-800 dark:text-white">৳{price}</span>
                         {originalPrice && (
                             <span className="text-sm text-gray-500 dark:text-gray-400 line-through">৳{originalPrice}</span>
                         )}
                     </div>
                     <Link 
                         to={`/book-service?package=${encodeURIComponent(title)}`}
-                        className="mt-3 w-full inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-all"
+                        className="mt-4 w-full inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-all"
                     >
                         Book Now
                     </Link>
@@ -188,120 +187,134 @@ const ServicePackageCard = ({ title, services, price, originalPrice, icon, popul
         </div>
     );
 };
+
 const ServicePackagesSlider = () => {
     const packages = [
         {
             title: "AC + Fridge Combo",
-            services: [
-                "1.5 ton AC full servicing",
-                "Refrigerator deep cleaning",
-                "Gas top-up if needed",
-                "6 months service warranty"
-            ],
+            services: ["1.5 ton AC full servicing", "Refrigerator deep cleaning", "Gas top-up if needed", "6 months service warranty"],
             price: "3,499",
             originalPrice: "4,500",
             icon: <AirVent size={20} />,
             popular: true,
-            image: "https://1000fix.com/wp-content/uploads/2024/12/refrigerator-repair-web-banner.jpg"
+            image: "https://content.jdmagicbox.com/v2/comp/mahabubnagar/e6/9999p8542.8542.230530154518.l2e6/catalogue/ma-cool-zone-ac-fridge-repair-clock-tower-mahabubnagar-refrigerator-repair-and-services-i9wlces3yq.jpg"
         },
         {
             title: "Full Home Checkup",
-            services: [
-                "Electrical safety inspection",
-                "Plumbing system check",
-                "5 switch/socket repairs",
-                "Detailed report"
-            ],
+            services: ["Electrical safety inspection", "Plumbing system check", "5 switch/socket repairs", "Detailed report"],
             price: "2,199",
             originalPrice: "3,200",
             icon: <Home size={20} />,
-            image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+            image: "https://github.com/akonBRO/Electromber/blob/main/frontend/src/landing/assets/ChatGPT%20Image%20Jun%2030,%202025,%2012_09_52%20AM.png?raw=true"
         },
         {
             title: "Kitchen Appliance Package",
-            services: [
-                "Refrigerator servicing",
-                "Microwave deep cleaning",
-                "Chimney maintenance",
-                "1 month warranty"
-            ],
+            services: ["Refrigerator servicing", "Microwave deep cleaning", "Chimney maintenance", "1 month warranty"],
             price: "2,899",
             originalPrice: "3,800",
             icon: <Wrench size={20} />,
-            image: "https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+            image: "https://localpintu.com/uploads/SystemSetting/1701086243images_home.jpg"
         },
         {
             title: "Monsoon Plumbing Care",
-            services: [
-                "2 faucet repairs",
-                "Drain pipe cleaning",
-                "Waterproofing check",
-                "Leak detection"
-            ],
+            services: ["2 faucet repairs", "Drain pipe cleaning", "Waterproofing check", "Leak detection"],
             price: "1,599",
             originalPrice: "2,300",
             icon: <Droplets size={20} />,
-            image: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+            image: "https://marketplace.canva.com/EAFErg_nwpE/3/0/1600w/canva-blue-business-services-youtube-thumbnail-BQQxm_3qVCE.jpg"
         },
         {
             title: "Office Maintenance",
-            services: [
-                "5 AC servicing",
-                "Electrical panel check",
-                "Restroom plumbing",
-                "Priority support"
-            ],
+            services: ["5 AC servicing", "Electrical panel check", "Restroom plumbing", "Priority support"],
             price: "8,999",
             originalPrice: "12,000",
             icon: <Clipboard size={20} />,
-            image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+            image: "https://www.handysquad.com/wp-content/uploads/2024/07/office-maintenance.jpg"
         }
     ];
 
     const [currentSlide, setCurrentSlide] = useState(0);
-    const slidesToShow = 3;
+    const [slidesToShow, setSlidesToShow] = useState(3);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setSlidesToShow(1);
+            } else if (window.innerWidth < 1024) {
+                setSlidesToShow(2);
+            } else {
+                setSlidesToShow(3);
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    
     const totalSlides = packages.length;
+    const maxSlideIndex = totalSlides > slidesToShow ? totalSlides - slidesToShow : 0;
 
     const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % (totalSlides - slidesToShow + 1));
+        setCurrentSlide((prev) => Math.min(prev + 1, maxSlideIndex));
     };
 
     const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + (totalSlides - slidesToShow + 1)) % (totalSlides - slidesToShow + 1));
+        setCurrentSlide((prev) => Math.max(prev - 1, 0));
     };
 
     return (
-        <div className="my-8">
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Popular Service Packages</h2>
-                <div className="flex space-x-2">
+        <div className="my-12">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 md:mb-0">Popular Service Packages</h2>
+                {/* Desktop slider controls */}
+                <div className="hidden md:flex space-x-3">
                     <button 
                         onClick={prevSlide} 
-                        className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+                        className="p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-orange-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        disabled={currentSlide === 0}
+                    >
+                        <ChevronLeft size={24} />
+                    </button>
+                    <button 
+                        onClick={nextSlide} 
+                        className="p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-orange-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        disabled={currentSlide === maxSlideIndex}
+                    >
+                        <ChevronRight size={24} />
+                    </button>
+                </div>
+            </div>
+            
+            <div className="relative">
+                 {/* Mobile slider controls */}
+                <div className="md:hidden">
+                    <button 
+                        onClick={prevSlide} 
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/30 text-white disabled:opacity-30"
                         disabled={currentSlide === 0}
                     >
                         <ChevronLeft size={20} />
                     </button>
                     <button 
                         onClick={nextSlide} 
-                        className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
-                        disabled={currentSlide === totalSlides - slidesToShow}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/30 text-white disabled:opacity-30"
+                        disabled={currentSlide === maxSlideIndex}
                     >
                         <ChevronRight size={20} />
                     </button>
                 </div>
-            </div>
-            
-            <div className="relative overflow-hidden">
-                <div 
-                    className="flex transition-transform duration-300 ease-in-out" 
-                    style={{ transform: `translateX(-${currentSlide * (100 / slidesToShow)}%)` }}
-                >
-                    {packages.map((pkg, index) => (
-                        <div key={index} className="flex-shrink-0 px-3" style={{ width: `${100 / slidesToShow}%` }}>
-                            <ServicePackageCard {...pkg} />
-                        </div>
-                    ))}
+                <div className="overflow-hidden">
+                    <div 
+                        className="flex transition-transform duration-500 ease-in-out" 
+                        style={{ transform: `translateX(-${currentSlide * (100 / slidesToShow)}%)` }}
+                    >
+                        {packages.map((pkg, index) => (
+                            <div key={index} className="flex-shrink-0 px-2" style={{ width: `${100 / slidesToShow}%` }}>
+                                <ServicePackageCard {...pkg} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
@@ -548,7 +561,7 @@ const RecommendedForYou = () => {
             description: "Deep cleaning for your AC unit to ensure cool air and energy efficiency this summer.",
             price: "899",
             icon: <AirVent className="w-6 h-6 text-sky-500" />,
-            image: "https://1000fix.com/wp-content/uploads/2024/04/AC-Hydraulic-Service.webp",
+            image: "https://mumbaiacrepair.in/wp-content/uploads/2023/09/ac-bnr.jpg",
             link: "/book-service?type=ac-jet-wash",
         },
         {
@@ -634,7 +647,7 @@ const RecommendedForYou = () => {
                                 ${activeServiceId === service.id ? 'transform scale-100' : 'scale-110'}
                             `}
                             style={{
-                                animation: activeServiceId === service.id ? 'kenburns 20s ease-out infinite' : 'none'
+                                animation: activeServiceId === service.id ? '' : 'none'
                             }}
                         />
                     ))}
@@ -695,13 +708,6 @@ const DashboardPage = () => {
             bio: "Expert in residential electrical systems and safety inspections."
         }
     ];
-
-    // 5 New Features:
-    // 1. Emergency Service Banner
-    // 2. Service History Timeline
-    // 3. Service Package Recommendations
-    // 4. Technician Rating System
-    // 5. Service Warranty Tracker
 
     return (
         <DashboardLayout>

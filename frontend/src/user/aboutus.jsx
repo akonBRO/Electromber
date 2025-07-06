@@ -250,7 +250,7 @@ const AboutUsPage = () => {
                         <TeamMemberCard 
                             name="Basit Ibrahim" 
                             role="Co-Founder & COO" 
-                            avatar="https://scontent.fjsr13-1.fna.fbcdn.net/v/t39.30808-1/251066429_1570065436668051_2563879864103268332_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_ohc=SlpNyhKNuuQQ7kNvwEKnL0q&_nc_oc=AdlIUrntRsqB_d2B9CSwExfzAaMu3a86-H0_WM9lFEgLASa8FRepYuKAX2ZNioavKzs&_nc_zt=24&_nc_ht=scontent.fjsr13-1.fna&_nc_gid=99mYG4rPpudlljDKGcpjNw&oh=00_AfM44gJRDk2P_Ja82884qUqSRlOPR_kdOJWAiQkENBUdGg&oe=6860C47E" 
+                            avatar="https://scontent.fjsr13-1.fna.fbcdn.net/v/t39.30808-1/251066429_1570065436668051_2563879864103268332_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=110&ccb=1-7&_nc_sid=1d2534&_nc_ohc=Y-KGOQ_z0kgQ7kNvwG9_EOo&_nc_oc=Adn8fBBrCYIZxI39kbNUZ6CMjNV229iP0nZUNp0_0Eo_fclVDk6SOo3Fv5bZbvMaDdQ&_nc_zt=24&_nc_ht=scontent.fjsr13-1.fna&_nc_gid=qdDJSI9kCXNC1rn8WOEbOg&oh=00_AfThpHuTMziNk3TkyZH4CR10r35vf8KHEbrD22HtCch8pg&oe=68705E3E" 
                             social={{linkedin: "#", twitter: "#"}} 
                             bio="Finance service expert passionate about creating delightful service experiences."
                         />
@@ -264,7 +264,7 @@ const AboutUsPage = () => {
                         <TeamMemberCard 
                             name="Nowrin Afrin" 
                             role="Co-Founder & CMO" 
-                            avatar="https://media.licdn.com/dms/image/v2/D4E03AQHAgO_GmDgqGw/profile-displayphoto-shrink_200_200/B4EZaXhI1TH4AY-/0/1746298770992?e=2147483647&v=beta&t=b1eeYuI5v2g8iLWEMX8FumjvPkFmr4g948VjykZVt70" 
+                            avatar="https://media.licdn.com/dms/image/v2/D4E03AQEPJNSOEkSEog/profile-displayphoto-scale_200_200/B4EZfFkFdiHwAc-/0/1751366261940?e=1757548800&v=beta&t=N7YwHViesRg71NcSTDFvJIXbn59x2oW1f06RdT5yyDQ" 
                             social={{linkedin: "#", twitter: "#"}} 
                             bio="Operations specialist with expertise in service delivery and quality control."
                         />
